@@ -1,0 +1,9 @@
+const express = require('express');
+const router = express.Router();
+const notesCtrl = require('../../controllers/api/notes');
+
+// All paths start with // All paths start with  '/api/notes'
+router.get('/', notesCtrl.index);
+router.post('/new', notesCtrl.create);
+
+module.exports = router;
