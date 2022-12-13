@@ -5,17 +5,16 @@ import AuthPage from '../AuthPage/AuthPage';
 import NavBar from '../../components/NavBar/NavBar';
 import NewNotePage from '../NewNotePage/NewNotePage';
 import NotePage from '../NotePage/NotePage';
+import * as notesAPI from '../../utilities/notes-api';
 import './App.css';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
-  const [notes, setNotes] = useState([{
-    title: "",
-    content: ""
-  }]);
+  const [notes, setNotes] = useState([]);
   
-  function addNote(note) {
-    setNotes([...notes, note]);
+  async function addNote(note) {
+    let newNote = await notesAPI.create(note)
+    setNotes([...notes, newNote]);
   }
 
   return (
@@ -26,7 +25,7 @@ export default function App() {
           <Routes>
             {/* route components in here */}
             <Route path="/notes/new" element={<NewNotePage addNote={addNote} />} />
-            <Route path="/notes" element={<NotePage notes={notes}/>} />
+            <Route path="/notes" element={<NotePage notes={notes} user={user} />} />
           </Routes>
         </>
         :

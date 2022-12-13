@@ -1,10 +1,10 @@
 // Page is the bigger one, components are the "child"
-export default function NoteCard({ user, note }) {
+export default function NoteCard({ note }) {
   return (
     <>
-      <div>Title: {user.note.title}</div>
-      <div>Content: {note.content}</div>
-      <div>{note.createdAt().localeDate}</div>
+      <div>title: {note.title}</div>
+      <div>content: {note.content}</div>
+      <div>{new Date().toLocaleString()}</div>&nbsp;
     </>
   )
 }
