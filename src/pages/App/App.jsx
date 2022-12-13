@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { getUser } from '../../utilities/users-service';
 import AuthPage from '../AuthPage/AuthPage';
@@ -13,9 +13,17 @@ export default function App() {
   const [notes, setNotes] = useState([]);
   
   async function addNote(note) {
-    let newNote = await notesAPI.create(note)
+    const newNote = await notesAPI.create(note)
     setNotes([...notes, newNote]);
   }
+
+  useEffect(() => {
+    async function displayNotes() {
+      const noteData = await notesAPI.index();
+      setNotes(noteData);
+    }
+    displayNotes();
+  }, []);
 
   return (
     <main className="App">
@@ -25,7 +33,7 @@ export default function App() {
           <Routes>
             {/* route components in here */}
             <Route path="/notes/new" element={<NewNotePage addNote={addNote} />} />
-            <Route path="/notes" element={<NotePage notes={notes} user={user} />} />
+            <Route path="/notes" element={<NotePage notes={notes} setNotes={setNotes} />} />
           </Routes>
         </>
         :
